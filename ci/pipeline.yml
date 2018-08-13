@@ -1,0 +1,33 @@
+---
+resources:
+- name: concourse-hello-world
+  type: git
+  source:
+    uri: {{github-repository}}
+    branch: master
+    private_key: {{github-private-key}}
+
+- name: dev-deployment
+  type: cf
+  source:
+    api: {{cf-api-url}}
+    username: {{cf-username}}
+    password: {{cf-password}}
+    organization: {{cf-org}}
+    space: dev
+
+jobs:
+- name: build
+  plan:
+  - get: concourse-hello-world
+    trigger: true
+  - task: build
+    file: concourse-hello-world/ci/build.yml
+
+- name: deploy-dev
+  plan:
+  - get: concourse-hello-world
+    passed: [build]
+  - put: dev-deployment
+    params:
+      manifest: concourse-hello-world/manifest-dev.yml
