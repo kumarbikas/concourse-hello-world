@@ -8,7 +8,6 @@ image_resource:
 
 inputs:
   - name: concourse-hello-world
-  - name: version
 
 outputs:
   - name: build-output
