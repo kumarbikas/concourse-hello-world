@@ -20,4 +20,5 @@ run:
     cd concourse-hello-world
     chmod +x gradlew
     ./gradlew -P version=$(cat ../version/number) build
+    pwd
     cp build/libs/concourse-hello-world*.jar ../build-output

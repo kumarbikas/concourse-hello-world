@@ -32,3 +32,4 @@ jobs:
   - put: dev-deployment
     params:
       manifest: concourse-hello-world/manifest-dev.yml
+      path: ../build-output/concourse-hello-world*.jar
