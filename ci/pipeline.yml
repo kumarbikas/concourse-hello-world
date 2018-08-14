@@ -25,11 +25,14 @@ jobs:
   - task: build
     file: concourse-hello-world/ci/build.yml
 
+
 - name: deploy-dev
   plan:
   - get: concourse-hello-world
     passed: [build]
+  - task: build
+    file: concourse-hello-world/ci/build.yml
   - put: dev-deployment
     params:
       manifest: concourse-hello-world/manifest-dev.yml
-      path: ../build-output/concourse-hello-world*.jar
+      path: build-output/concourse-hello-world*.jar
