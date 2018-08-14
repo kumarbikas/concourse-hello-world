@@ -22,4 +22,4 @@ run:
     ./gradlew -P version=$(cat ../version/number) build
     cd ..
     pwd
-    cp build/libs/concourse-hello-world*.jar build-output/.
+    cp concourse-hello-world/build/libs/concourse-hello-world*.jar build-output/.
