@@ -7,6 +7,24 @@ resources:
     branch: master
     private_key: {{github-private-key}}
 
+- name: concourse-hello-world-artifacts
+  type: s3
+  source:
+    bucket: {{bucket}}
+    regexp: releases/concourse-hello-world-(.*).jar
+    access_key_id: {{access-key-id}}
+    secret_access_key: {{secret-access-key}}
+    endpoint: {{endpoint}}
+
+- name: version
+  type: semver
+  source:
+    bucket: {{bucket}}
+    key: concourse-hello-world/version
+    access_key_id: {{access-key-id}}
+    secret_access_key: {{secret-access-key}}
+    endpoint: {{endpoint}}
+
 - name: dev-deployment
   type: cf
   source:
@@ -22,17 +40,25 @@ jobs:
   plan:
   - get: concourse-hello-world
     trigger: true
+  - get: version
+    params: {bump: patch}
   - task: build
     file: concourse-hello-world/ci/build.yml
-
+  - put: concourse-hello-world-artifacts
+    params:
+      file: build-output/concourse-hello-world-*.jar
+  - put: version
+    params:
+      file: version/number
 
 - name: deploy-dev
   plan:
   - get: concourse-hello-world
     passed: [build]
-  - task: build
-    file: concourse-hello-world/ci/build.yml
+  - get: concourse-hello-world-artifacts
+    trigger: true
+    passed: [build]
   - put: dev-deployment
     params:
       manifest: concourse-hello-world/manifest-dev.yml
-      path: build-output/concourse-hello-world*.jar
+      path: concourse-hello-world-artifacts/concourse-hello-world-*.jar

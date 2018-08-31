@@ -8,6 +8,7 @@ image_resource:
 
 inputs:
   - name: concourse-hello-world
+  - name: version
 
 outputs:
   - name: build-output
@@ -20,6 +21,4 @@ run:
     cd concourse-hello-world
     chmod +x gradlew
     ./gradlew -P version=$(cat ../version/number) build
-    cd ..
-    pwd
-    cp concourse-hello-world/build/libs/concourse-hello-world*.jar build-output/.
+    cp build/libs/concourse-hello-world-*.jar ../build-output
