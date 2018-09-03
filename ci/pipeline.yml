@@ -45,7 +45,7 @@ jobs:
   - get: concourse-hello-world
     trigger: true
   - get: version
-    params: {bump: patch}
+    params: {pre: SNAPSHOT}
   - task: build
     file: concourse-hello-world/ci/build.yml
   - put: concourse-hello-world-artifacts
@@ -60,7 +60,7 @@ jobs:
   - get: concourse-hello-world
     passed: [build]
   - get: concourse-hello-world-artifacts
-    trigger: true
+    trigger: false
     passed: [build]
   - put: dev-deployment
     params:
