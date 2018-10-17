@@ -4,3 +4,7 @@ build
 *.iml
 ci/variables.yml
 .idea/vcs.xml
+/bin/
+.classpath
+.project
+*.settings

@@ -1,4 +1,4 @@
 ---
 applications:
-- name: concourse-hello-world
+- name: concourse-hello-app
   path: build/libs/concourse-hello-world.jar
