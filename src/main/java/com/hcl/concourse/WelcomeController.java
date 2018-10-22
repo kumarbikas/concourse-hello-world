@@ -8,6 +8,6 @@ public class WelcomeController {
 
     @GetMapping("/")
     public String sayHello() {
-        return "hello Bikash";
+        return "hello World of Spring boot";
     }
 }
